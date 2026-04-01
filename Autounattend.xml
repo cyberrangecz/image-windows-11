@@ -135,7 +135,7 @@
                     <Path>E:\qemupciserial\w11\amd64</Path>
                 </PathAndCredentials>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="7">
-                    <Path>E:\qxldod\w11\amd64</Path>
+                    <Path>E:\qxldod\w10\amd64</Path>
                 </PathAndCredentials>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="8">
                     <Path>E:\vioinput\w11\amd64</Path>

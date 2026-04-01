@@ -2,7 +2,7 @@ name: windows-10-testing-topology
 
 hosts:
   - name: image-test
-    base_box: 
+    base_box:
       image: windows-11-test
       mgmt_user: windows
       mng_protocol: winrm
