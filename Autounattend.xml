@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="utf-8"?>
 <unattend xmlns="urn:schemas-microsoft-com:unattend">
     <servicing/>
@@ -243,17 +244,7 @@
                     <Order>24</Order>
                     <Description>Disable password expiration for windows user</Description>
                 </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c powershell -Command "$ProgressPreference = 'SilentlyContinue'; Invoke-WebRequest -Uri 'https://go.microsoft.com/fwlink/?linkid=2088631' -OutFile 'C:\Windows\Temp\ndp48-x86-x64-allos-enu.exe'"</CommandLine>
-                    <Description>Download .NET Framework binary</Description>
-                    <Order>25</Order>
-                    <RequiresUserInput>true</RequiresUserInput>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c start /wait C:\Windows\Temp\ndp48-x86-x64-allos-enu.exe /q</CommandLine>
-                    <Order>26</Order>
-                    <Description>Upgrade .NET Framework 4.7.2 to 4.8</Description>
-                </SynchronousCommand>
+
                 <!-- WITHOUT WINDOWS UPDATES -->
                 <!--
                 <SynchronousCommand wcm:action="add">

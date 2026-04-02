@@ -1,17 +1,21 @@
-# Create folder location
-New-Item -Path c:\ -Name temp -ItemType Directory
-# Download openssh
-(New-Object System.Net.WebClient).DownloadFile('https://github.com/PowerShell/Win32-OpenSSH/releases/download/v8.1.0.0p1-Beta/OpenSSH-Win64.zip','C:\temp\OpenSSH-Win64.zip')
-# Unzip the files
-Expand-Archive -Path "c:\temp\OpenSSH-Win64.Zip" -DestinationPath "C:\Program Files\OpenSSH"
-# Install service
-. "C:\Program Files\OpenSSH\OpenSSH-Win64\install-sshd.ps1"
-# Set firewall permissions
-New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
+# Install the OpenSSH Server
+Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
 
-# Set service startup
-Set-Service sshd -StartupType Automatic
+# Start the sshd service
 Start-Service sshd
+
+# OPTIONAL but recommended:
+Set-Service -Name sshd -StartupType 'Automatic'
+
+# Set FW rule to allow inbound SSH traffic
+$ruleName = 'OpenSSH-Server-In-TCP (sshd)'
+# Check if the firewall rule already exists
+if (Get-NetFirewallRule -Name $ruleName -ErrorAction SilentlyContinue) {
+    # If it exists, delete it
+    Remove-NetFirewallRule -Name $ruleName
+}
+# Create (or recreate) the rule
+New-NetFirewallRule -Name $ruleName -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22 -Profile Any
 
 # Set Authentication to public key
 ((Get-Content -path C:\ProgramData\ssh\sshd_config -Raw) `

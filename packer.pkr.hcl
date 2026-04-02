@@ -5,7 +5,7 @@ packer {
       version = "~> 1"
     }
     windows-update = {
-      version = "0.17.1"
+      version = "0.17.3"
       source  = "github.com/rgl/windows-update"
     }
     external = {
@@ -32,13 +32,11 @@ source "qemu" "windows_11" {
   iso_checksum         = "a61adeab895ef5a4db436e0a7011c92a2ff17bb0357f58b13bbc4062e535e7b9"
   iso_url              = "https://software-static.download.prss.microsoft.com/dbazure/888969d5-f34g-4e03-ac9d-1f9786c66749/26200.6584.250915-1905.25h2_ge_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso"
   output_directory     = "target-qemu"
-  machine_type         = "q35"
 
 qemuargs               = [
     ["-m", "4096m"],
     ["-smp", "cpus=4"],
-    ["-cpu", "host"],
-    ["-vga", "std"],
+    # ["-cpu", "host"], # Needed for local test deploy when WSL2 is used, but can cause issues in CI
     ["-device", "virtio-tablet"], # Better mouse tracking in VNC
     ["-cdrom", "virtio-win.iso"]
   ]
@@ -82,8 +80,8 @@ build {
       "scripts/fix.ps1",
       "scripts/Install-CloudBaseInit.ps1",
       "scripts/cleanup.ps1",
-      "scripts/sysprep.ps1",
-      "scripts/shrink-filesystem.ps1"
+      "scripts/shrink-filesystem.ps1",
+      "scripts/sysprep.ps1"
     ]
   }
 
