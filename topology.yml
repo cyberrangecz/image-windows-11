@@ -1,11 +1,10 @@
-name: windows-10-testing-topology
+name: windows-11-testing-topology
 
 hosts:
   - name: image-test
     base_box:
-      image: windows-11-test
+      image: IMAGE_NAME
       mgmt_user: windows
-#      mng_protocol: winrm
     flavor: standard.medium
 
 routers:

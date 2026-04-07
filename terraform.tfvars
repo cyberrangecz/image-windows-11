@@ -1,5 +1,5 @@
-NAME             = "windows-10"
+NAME             = "windows-11"
 TYPE             = "windows"
 DISTRO           = "windows"
 GUI_ACCESS       = "true"
-IMAGE_LOCAL_PATH = "target-qemu/windows-10.qcow2"
+IMAGE_LOCAL_PATH = "target-qemu/windows-11.qcow2"

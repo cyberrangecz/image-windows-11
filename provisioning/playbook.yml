@@ -1,14 +1,8 @@
 - name: Hello world
   hosts: image-test
-  gather_facts: no
+  gather_facts: yes
   tasks:
-    - name: Wait for connection
-      wait_for_connection:
-        timeout: 3000
 
-    - name: Gather facts
-      setup:
-  
     - name: Print hello world
       debug:
         msg: "Hello World"
