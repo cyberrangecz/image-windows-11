@@ -11,7 +11,7 @@ hosts:
 routers:
   - name: router
     base_box:
-      image: debian-12
+      image: debian-12-x86_64
       mgmt_user: debian
     flavor: standard.small
 
