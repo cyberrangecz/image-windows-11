@@ -5,7 +5,7 @@ hosts:
     base_box:
       image: windows-11-test
       mgmt_user: windows
-      mng_protocol: winrm
+#      mng_protocol: winrm
     flavor: standard.medium
 
 routers:
