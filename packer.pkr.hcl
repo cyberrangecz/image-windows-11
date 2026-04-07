@@ -36,7 +36,7 @@ source "qemu" "windows_11" {
 qemuargs               = [
     ["-m", "4096m"],
     ["-smp", "cpus=4"],
-    # ["-cpu", "host"], # Needed for local test deploy when WSL2 is used, but can cause issues in CI
+    ["-cpu", "host"],
     ["-device", "virtio-tablet"], # Better mouse tracking in VNC
     ["-cdrom", "virtio-win.iso"]
   ]
