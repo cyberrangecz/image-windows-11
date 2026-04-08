@@ -34,8 +34,8 @@ source "qemu" "windows_11" {
   output_directory     = "target-qemu"
 
 qemuargs               = [
-    ["-m", "4096m"],
-    ["-smp", "cpus=4"],
+    ["-m", "6144m"],
+    ["-smp", "cores=8"],
     ["-cpu", "host"],
     ["-device", "virtio-tablet"], # Better mouse tracking in VNC
     ["-cdrom", "virtio-win.iso"]
