@@ -23,6 +23,7 @@ data "external-raw" "virtio" {
 }
 
 source "qemu" "windows_11" {
+  accelerator          = "kvm"
   boot_wait            = "10s"
   disk_interface       = "virtio"
   disk_size            = "64000"
@@ -35,8 +36,9 @@ source "qemu" "windows_11" {
 
 qemuargs               = [
     ["-m", "6144m"],
-    ["-smp", "cores=8"],
+    ["-smp", "4,sockets=1,cores=4,threads=1"],
     ["-cpu", "host"],
+    ["-drive", "if=virtio,cache=none,discard=ignore"], #unmap can do more aggressive trimming of the disk, but may cause performance issues on some storage backends, amybe use ignore as default
     ["-device", "virtio-tablet"], # Better mouse tracking in VNC
     ["-cdrom", "virtio-win.iso"]
   ]
