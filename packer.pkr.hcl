@@ -33,13 +33,23 @@ source "qemu" "windows_11" {
   iso_url              = "https://software-static.download.prss.microsoft.com/dbazure/888969d5-f34g-4e03-ac9d-1f9786c66749/26200.6584.250915-1905.25h2_ge_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso"
   output_directory     = "target-qemu"
 
-qemuargs               = [
+qemuargs = [
     ["-m", "6144m"],
     ["-smp", "4,sockets=1,cores=4,threads=1"],
-    ["-cpu", "host"],
-    ["-device", "virtio-tablet"], # Better mouse tracking in VNC
+    # CPU: host passthrough + the "Hyper-V" secret sauce
+    ["-cpu", "host,hv_relaxed,hv_vapic,hv_spinlocks=0x1fff,hv_vpindex,hv_synic,hv_stimer,hv_stimer_direct,hv_reset,hv_frequencies,hv_tlbflush,hv_ipi,hv_runtime,hv_time,kvm=off"],
+    # Timers: Disable the "noisy" ones and use hardware clocks
+    ["-rtc", "base=localtime,driftfix=slew"],
+    ["-global", "kvm-pit.lost_tick_policy=delay"],
+    ["-no-hpet"],
+    # Modern Machine Type (use q35 if possible for Windows 11)
+    ["-machine", "q35,accel=kvm,usb=off,dump-guest-core=off"],
+    # Input & Drivers
+    ["-device", "virtio-tablet-pci"],
+    ["-device", "virtio-serial-pci"],
     ["-cdrom", "virtio-win.iso"]
-  ]
+]
+
   shutdown_command     = "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\""
   ssh_private_key_file = "ssh-key"
   ssh_username         = "windows"
