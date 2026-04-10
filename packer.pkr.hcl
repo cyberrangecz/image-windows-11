@@ -23,10 +23,8 @@ data "external-raw" "virtio" {
 }
 
 source "qemu" "windows_11" {
-  accelerator          = "kvm"
   boot_wait            = "10s"
   disk_interface       = "virtio"
-  disk_cache           = "none"
   disk_size            = "64000"
   floppy_files         = ["Autounattend.xml", "redhat.cer", "scripts/microsoft-updates.ps1", "scripts/openssh.ps1", "scripts/configureRemotingForAnsible.ps1"]
   format               = "raw"
