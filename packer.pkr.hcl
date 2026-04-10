@@ -38,7 +38,6 @@ qemuargs               = [
     ["-smp", "4,sockets=1,cores=4,threads=1"],
     ["-cpu", "host,hv_relaxed,hv_vapic,hv_spinlocks=0x1fff,hv_vpindex,hv_runtime,hv_synic"],
     ["-device", "virtio-tablet"], # Better mouse tracking in VNC
-    ["-device", "virtio-net-pci"],
     ["-device", "virtio-serial-pci"],
     ["-cdrom", "virtio-win.iso"]
   ]
