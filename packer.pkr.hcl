@@ -24,13 +24,7 @@ data "external-raw" "virtio" {
 
 source "qemu" "windows_11" {
   boot_wait            = "10s"
-
-# 1. Performance: Switch to SCSI and use 'unsafe' cache for Packer builds
-  # 'unsafe' ignores fsync, which is safe for temp builds and massively faster.
-  disk_interface       = "virtio-scsi"
-  disk_cache           = "unsafe"
-  disk_discard         = "unmap"
-
+  disk_interface       = "virtio"
   disk_size            = "64000"
   floppy_files         = ["Autounattend.xml", "redhat.cer", "scripts/microsoft-updates.ps1", "scripts/openssh.ps1", "scripts/configureRemotingForAnsible.ps1"]
   format               = "raw"
@@ -42,14 +36,7 @@ source "qemu" "windows_11" {
 qemuargs               = [
     ["-m", "6144m"],
     ["-smp", "4,sockets=1,cores=4,threads=1"],
-    # 2. THE FIX: AMD-specific topology + Nested Hyper-V Enlightenments
-    # Added: topoext, host-cache-info, hv_stimer, hv_ipi, hv_tlbflush, hv_time, hv_reset
-    ["-cpu", "host,hv_relaxed,hv_vapic,hv_spinlocks=0x1fff,hv_vpindex,hv_synic,hv_stimer,hv_stimer_direct,hv_frequencies,hv_ipi,hv_tlbflush,hv_runtime,hv_time,hv_reset,topoext=on,host-cache-info=on,kvm=off"],
-    
-    # 3. Dedicated IOThread for the SCSI controller to reduce vCPU interrupts
-    ["-object", "iothread,id=iothread0"],
-
-    ["-device", "virtio-scsi-pci,id=scsi0,iothread=iothread0"],
+    ["-cpu", "host,hv_relaxed,hv_vapic,hv_spinlocks=0x1fff,hv_vpindex,hv_runtime,hv_synic"],
     ["-device", "virtio-tablet"], # Better mouse tracking in VNC
     ["-device", "virtio-serial-pci"],
     ["-cdrom", "virtio-win.iso"]
