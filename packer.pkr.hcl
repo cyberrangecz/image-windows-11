@@ -58,15 +58,10 @@ build {
 
   provisioner "windows-update" {}
 
-  provisioner "file" {
-    destination = "C:/Windows/Temp/"
-    source      = "scripts/spice-guest-tools.exe"
-  }
-
   provisioner "powershell" {
     scripts = [
       # "scripts/configureRemotingForAnsible.ps1",
-      "scripts/spiceToolsInstall.ps1",
+      # "scripts/spiceToolsInstall.ps1",
       "scripts/enable-rdp.ps1"
     ]
   }
