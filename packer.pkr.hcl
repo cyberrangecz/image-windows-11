@@ -26,7 +26,7 @@ source "qemu" "windows_11" {
   boot_wait            = "10s"
   disk_interface       = "virtio"
   disk_size            = "64000"
-  floppy_files         = ["Autounattend.xml", "redhat.cer", "scripts/microsoft-updates.ps1", "scripts/openssh.ps1", "scripts/configureRemotingForAnsible.ps1"]
+  floppy_files         = ["Autounattend.xml", "redhat.cer", "scripts/microsoft-updates.ps1", "scripts/openssh.ps1", "scripts/configureRemotingForAnsible.ps1", "scripts/spiceToolsInstall.ps1"]
   format               = "raw"
   headless             = "true"
   iso_checksum         = "a61adeab895ef5a4db436e0a7011c92a2ff17bb0357f58b13bbc4062e535e7b9"
