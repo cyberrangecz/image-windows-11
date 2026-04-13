@@ -223,6 +223,12 @@
                     <Order>3</Order>
                 </SynchronousCommand>
 
+				<SynchronousCommand wcm:action="add">
+	                <CommandLine>powershell.exe -NoProfile -ExecutionPolicy Bypass -File "A:\spiceToolsInstall.ps1" *>> "C:\temp\logs\SpiceInstall.log"</CommandLine>
+	                <Description>Install Spice Tools</Description>
+	                <Order>3</Order>
+	            </SynchronousCommand>
+				
                 <SynchronousCommand wcm:action="add">
                     <CommandLine>powershell.exe -NoProfile -Command "New-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Network' -Name 'NewNetworkWindowOff' -Value 1 -PropertyType DWord -Force *>> 'C:\temp\logs\NetworkPrompt.log'"</CommandLine>
                     <Description>Network prompt</Description>
@@ -270,13 +276,6 @@
     </settings>
     <settings pass="specialize">
         <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
-            <RunSynchronous>
-                <RunSynchronousCommand wcm:action="add">
-                    <Order>1</Order>
-                    <Description>Wait for Network and Install Spice Tools</Description>
-                    <Path>powershell.exe -NoProfile -ExecutionPolicy Bypass -File A:\spiceToolsInstall.ps1</Path>
-                </RunSynchronousCommand>
-            </RunSynchronous>
             <OEMInformation>
                 <HelpCustomized>false</HelpCustomized>
             </OEMInformation>
