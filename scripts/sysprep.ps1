@@ -23,10 +23,10 @@ if (Test-Path -Path "C:\Program Files\Cloudbase Solutions\Cloudbase-Init\conf") 
       <OOBE>
         <HideEULAPage>true</HideEULAPage>
         <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
-        <NetworkLocation>Work</NetworkLocation>
+        <HideLocalAccountScreen>true</HideLocalAccountScreen>
+        <HideOEMRegistrationScreen>true</HideOEMRegistrationScreen>
+        <HideOnlineAccountScreens>true</HideOnlineAccountScreens>
         <ProtectYourPC>1</ProtectYourPC>
-        <SkipUserOOBE>true</SkipUserOOBE>
-        <SkipMachineOOBE>true</SkipMachineOOBE>
       </OOBE>
     </component>
   </settings>
