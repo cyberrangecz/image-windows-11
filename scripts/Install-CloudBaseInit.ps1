@@ -32,5 +32,7 @@ New-Item -Path "C:\Program Files\Cloudbase Solutions\Cloudbase-Init\LocalScripts
 # Allow large time corrections (up to 12 hours)
 w32tm /config /update /maxposphasecorrection:43200 /maxnegphasecorrection:43200
 '
+Set-Service -Name "cloudbase-init" -StartupType Automatic
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\cloudbase-init" -Name "DelayedAutostart" -Value 1
 
 Write-Host "Cloudbase-Init setup done!"
