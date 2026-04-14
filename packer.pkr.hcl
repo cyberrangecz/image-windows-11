@@ -25,7 +25,7 @@ data "external-raw" "virtio" {
 source "qemu" "windows_11" {
   boot_wait            = "10s"
   disk_interface       = "virtio"
-  disk_size            = "64000"
+  disk_size            = "50000"
   floppy_files         = ["Autounattend.xml", "redhat.cer", "scripts/microsoft-updates.ps1", "scripts/openssh.ps1", "scripts/configureRemotingForAnsible.ps1", "scripts/spiceToolsInstall.ps1"]
   format               = "raw"
   headless             = "true"
@@ -77,7 +77,7 @@ build {
       "scripts/fix.ps1",
       "scripts/Install-CloudBaseInit.ps1",
       "scripts/cleanup.ps1",
-      "scripts/shrink-filesystem.ps1",
+      #"scripts/shrink-filesystem.ps1",
       "scripts/sysprep.ps1"
     ]
   }

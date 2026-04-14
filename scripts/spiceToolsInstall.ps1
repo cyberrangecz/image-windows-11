@@ -1,45 +1,49 @@
-certutil -f -AddStore "TrustedPublisher" "a:\redhat.cer"
+$ProgressPreference = 'SilentlyContinue'
 
-# 1. Wait for Network Connectivity (Extended for slower VM boots)
-$maxRetries = 40
-$retryCount = 0
-$connected = $false
+# 1. Security Configuration
+# Force TLS 1.2 and bypass SSL certificate validation for restricted environments
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+[Net.ServicePointManager]::ServerCertificateValidationCallback = { $true }
 
-Write-Host "Waiting for network..."
-while ($retryCount -lt $maxRetries) {
+# 2. Import Red Hat Certificate
+if (Test-Path "A:\redhat.cer") {
+    certutil -f -AddStore "TrustedPublisher" "A:\redhat.cer"
+}
+
+# 3. Network Wait Loop (Approx. 3 minutes max)
+Write-Host "Waiting for network connectivity..."
+$hasNetwork = $false
+for ($i = 1; $i -le 40; $i++) {
     if (Test-Connection -ComputerName google.com -Count 1 -Quiet) {
-        $connected = $true
-        Write-Host "Connected!"
+        $hasNetwork = $true
+        Write-Host "Connected."
         break
     }
-    Write-Host "Still waiting... ($($retryCount + 1)/$maxRetries)"
+    Write-Host "Attempt $i/40: No connection. Retrying in 5s..."
     Start-Sleep -Seconds 5
-    $retryCount++
 }
 
-if ($connected) {
-    # 2. Download and Install
-    $url = "https://www.spice-space.org/download/windows/spice-guest-tools/spice-guest-tools-latest.exe"
-    $dest = "$env:TEMP\spice-guest-tools.exe"
+# 4. Download and Install
+if ($hasNetwork) {
+    $url  = "https://www.spice-space.org/download/windows/spice-guest-tools/spice-guest-tools-latest.exe"
+    $path = "$env:TEMP\spice-guest-tools.exe"
 
-    Write-Host "Downloading Spice Tools..."
-    $ProgressPreference = 'SilentlyContinue'
     try {
-        Invoke-WebRequest -Uri $url -OutFile $dest -ErrorAction Stop
+        Write-Host "Downloading Spice Tools..."
+        Invoke-WebRequest -Uri $url -OutFile $path -ErrorAction Stop
         
-        if (Test-Path $dest) {
-            Write-Host "Installing..."
-            # Using /S for silent and /norestart to prevent the VM from 
-            # rebooting before the unattend process finishes.
-            Start-Process -FilePath $dest -ArgumentList "/S", "/norestart" -Wait
-            Write-Host "Installation finished."
-        }
-    } catch {
-        Write-Error "Download failed: $($_.Exception.Message)"
+        Write-Host "Starting silent installation..."
+        # /S = Silent, /norestart = Prevent unexpected reboots during unattend
+        Start-Process -FilePath $path -ArgumentList "/S", "/norestart" -Wait
+        Write-Host "Installation complete."
     }
-} else {
-    Write-Error "No internet connection detected. Skipping Spice Tools install."
+    catch {
+        Write-Error "Action failed: $($_.Exception.Message)"
+    }
+    finally {
+        if (Test-Path $path) { Remove-Item $path -Force }
+    }
 }
-
-# 3. Cleanup
-if (Test-Path $dest) { Remove-Item $dest -Force }
+else {
+    Write-Error "Network timeout. Spice Tools installation skipped."
+}

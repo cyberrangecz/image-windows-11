@@ -223,11 +223,11 @@
                     <Order>3</Order>
                 </SynchronousCommand>
 
-				<SynchronousCommand wcm:action="add">
-	                <CommandLine>powershell.exe -NoProfile -ExecutionPolicy Bypass -File "A:\spiceToolsInstall.ps1" *>> "C:\temp\logs\SpiceInstall.log"</CommandLine>
-	                <Description>Install Spice Tools</Description>
-	                <Order>4</Order>
-	            </SynchronousCommand>
+                <SynchronousCommand wcm:action="add">
+                     <CommandLine>powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "&amp; 'A:\spiceToolsInstall.ps1' *>> 'C:\temp\logs\SpiceInstall.log'"</CommandLine>
+                    <Description>Install Spice Tools</Description>
+                    <Order>4</Order>
+                </SynchronousCommand>
 				
                 <SynchronousCommand wcm:action="add">
                     <CommandLine>powershell.exe -NoProfile -Command "New-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Network' -Name 'NewNetworkWindowOff' -Value 1 -PropertyType DWord -Force *>> 'C:\temp\logs\NetworkPrompt.log'"</CommandLine>
