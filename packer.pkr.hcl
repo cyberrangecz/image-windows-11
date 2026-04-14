@@ -56,6 +56,8 @@ qemuargs               = [
 build {
   sources = ["source.qemu.windows_11"]
 
+  provisioner "windows-restart" {} #fix system interrupts - spice tools needed reboot
+
   provisioner "windows-update" {}
 
   provisioner "powershell" {
