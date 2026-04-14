@@ -1,6 +1,6 @@
-# Windows 10 Base image
+# Windows 11 Base image
 
-This repo contains Packer files for building Windows 10 amd64 base image for QEMU/OpenStack.
+This repo contains Packer files for building Windows 11 amd64 base image for QEMU/OpenStack.
 
 SSH and WinRM is enabled, SSH login using password is disabled.
 
