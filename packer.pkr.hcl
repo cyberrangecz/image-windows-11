@@ -84,9 +84,9 @@ build {
 
   post-processor "shell-local" {
     inline = [
-      "parted -s target-qemu/* print free",
-      "NEW_SIZE=$(parted -sm target-qemu/* unit b print free | grep free | awk -F ':' '{print $2}' | sort -rh | head -n 1)",
-      "qemu-img resize -f raw --shrink target-qemu/* $NEW_SIZE",
+      # "parted -s target-qemu/* print free",
+      # "NEW_SIZE=$(parted -sm target-qemu/* unit b print free | grep free | awk -F ':' '{print $2}' | sort -rh | head -n 1)",
+      # "qemu-img resize -f raw --shrink target-qemu/* $NEW_SIZE",
       "qemu-img convert -f raw -O qcow2 target-qemu/windows-11 target-qemu/windows-11.qcow2"
     ]
   }

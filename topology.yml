@@ -5,7 +5,7 @@ hosts:
     base_box:
       image: IMAGE_NAME
       mgmt_user: windows
-    flavor: standard.medium
+    flavor: a4-8-80
 
 routers:
   - name: router
