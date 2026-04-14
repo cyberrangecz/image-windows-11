@@ -235,10 +235,16 @@
                     <Order>5</Order>
                 </SynchronousCommand>
 
+				<SynchronousCommand wcm:action="add">
+				    <CommandLine>powershell.exe -NoProfile -Command "if (!(Test-Path 'HKLM:\SOFTWARE\Policies\Microsoft\Edge')) { New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Edge' -Force }; New-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Edge' -Name 'HideFirstRunExperience' -Value 1 -PropertyType DWord -Force *>> 'C:\temp\logs\EdgeFirstRun.log'"</CommandLine>
+				    <Description>Disable Edge First Run Experience</Description>
+				    <Order>6</Order>
+				</SynchronousCommand>	
+
                 <SynchronousCommand wcm:action="add">
                     <CommandLine>powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "&amp; 'a:\fixnetwork.ps1' *>> 'C:\temp\logs\fixnetwork.log'"</CommandLine>
                     <Description>Fix public network</Description>
-                    <Order>6</Order>
+                    <Order>7</Order>
                 </SynchronousCommand>
 
                 <SynchronousCommand wcm:action="add">
