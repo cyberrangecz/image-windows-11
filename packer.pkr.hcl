@@ -24,7 +24,7 @@ data "external-raw" "virtio" {
 
 source "qemu" "windows_11" {
   boot_wait            = "10s"
-  disk_interface       = "virtio-scsi"
+  disk_interface       = "virtio"
   disk_size            = "50000"
   floppy_files         = ["Autounattend.xml", "redhat.cer", "scripts/microsoft-updates.ps1", "scripts/openssh.ps1", "scripts/configureRemotingForAnsible.ps1", "scripts/spiceToolsInstall.ps1"]
   format               = "raw"
@@ -39,6 +39,7 @@ qemuargs               = [
     ["-cpu", "host,hv_relaxed,hv_vapic,hv_spinlocks=0x1fff,hv_vpindex,hv_runtime,hv_synic"],
     ["-device", "virtio-tablet"], # Better mouse tracking in VNC
     ["-device", "virtio-serial-pci"],
+    ["-device", "virtio-rng-pci"],
     ["-cdrom", "virtio-win.iso"]
   ]
 
