@@ -121,37 +121,13 @@
             -->
             <DriverPaths>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="1">
-                    <Path>E:\viogpudo\w11\amd64</Path>
-                </PathAndCredentials>
-                <PathAndCredentials wcm:action="add" wcm:keyValue="2">
                     <Path>E:\viostor\w11\amd64</Path>
                 </PathAndCredentials>
-                <PathAndCredentials wcm:action="add" wcm:keyValue="3">
+                <PathAndCredentials wcm:action="add" wcm:keyValue="2">
                     <Path>E:\NetKVM\w11\amd64</Path>
                 </PathAndCredentials>
-                <PathAndCredentials wcm:action="add" wcm:keyValue="4">
-                    <Path>E:\Balloon\w11\amd64</Path>
-                </PathAndCredentials>
-                <PathAndCredentials wcm:action="add" wcm:keyValue="5">
-                    <Path>E:\pvpanic\w11\amd64</Path>
-                </PathAndCredentials>
-                <PathAndCredentials wcm:action="add" wcm:keyValue="6">
-                    <Path>E:\qemupciserial\w11\amd64</Path>
-                </PathAndCredentials>
-                <PathAndCredentials wcm:action="add" wcm:keyValue="7">
-                    <Path>E:\qxldod\w10\amd64</Path>
-                </PathAndCredentials>
-                <PathAndCredentials wcm:action="add" wcm:keyValue="8">
+                <PathAndCredentials wcm:action="add" wcm:keyValue="3">
                     <Path>E:\vioinput\w11\amd64</Path>
-                </PathAndCredentials>
-                <PathAndCredentials wcm:action="add" wcm:keyValue="9">
-                    <Path>E:\viorng\w11\amd64</Path>
-                </PathAndCredentials>
-                <PathAndCredentials wcm:action="add" wcm:keyValue="10">
-                    <Path>E:\vioscsi\w11\amd64</Path>
-                </PathAndCredentials>
-                <PathAndCredentials wcm:action="add" wcm:keyValue="11">
-                    <Path>E:\vioserial\w11\amd64</Path>
                 </PathAndCredentials>
             </DriverPaths>
         </component>
@@ -224,29 +200,34 @@
                     <Order>3</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
+                    <CommandLine>cmd.exe /c start /wait "" msiexec.exe /i "E:\virtio-win-gt-x64.msi" /qn /norestart /l*v "C:\temp\logs\VirtioInstall.log"</CommandLine>
+                    <Description>Install VirtIO Guest Tools</Description>
+                    <Order>4</Order>
+                </SynchronousCommand>
+                <SynchronousCommand wcm:action="add">
                      <CommandLine>powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "&amp; 'A:\spiceToolsInstall.ps1' *>> 'C:\temp\logs\SpiceInstall.log'"</CommandLine>
                     <Description>Install Spice Tools</Description>
-                    <Order>4</Order>
+                    <Order>5</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
                     <CommandLine>powershell.exe -NoProfile -Command "New-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Network' -Name 'NewNetworkWindowOff' -Value 1 -PropertyType DWord -Force *>> 'C:\temp\logs\NetworkPrompt.log'"</CommandLine>
                     <Description>Network prompt</Description>
-                    <Order>5</Order>
+                    <Order>6</Order>
                 </SynchronousCommand>
 				<SynchronousCommand wcm:action="add">
 				    <CommandLine>powershell.exe -NoProfile -Command "if (!(Test-Path 'HKLM:\SOFTWARE\Policies\Microsoft\Edge')) { New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Edge' -Force }; New-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Edge' -Name 'HideFirstRunExperience' -Value 1 -PropertyType DWord -Force *>> 'C:\temp\logs\EdgeFirstRun.log'"</CommandLine>
 				    <Description>Disable Edge First Run Experience</Description>
-				    <Order>6</Order>
+				    <Order>7</Order>
 				</SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
                     <CommandLine>powershell.exe -NoProfile -Command "New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\OOBE' -Force | Out-Null; Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\OOBE' -Name 'DisablePrivacyExperience' -Value 1 -Type DWord -Force *>> 'C:\temp\logs\PrivacyPrompt.log'"</CommandLine>
                     <Description>Disable User Privacy Experience Screen</Description>
-                    <Order>7</Order>
+                    <Order>8</Order>
 				</SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
                     <CommandLine>powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "&amp; 'a:\fixnetwork.ps1' *>> 'C:\temp\logs\fixnetwork.log'"</CommandLine>
                     <Description>Fix public network</Description>
-                    <Order>8</Order>
+                    <Order>9</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
                     <CommandLine>powershell.exe -NoProfile -Command "Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Power' -Name 'HibernateFileSizePercent' -Value 0 *>> 'C:\temp\logs\Hibernation.log'"</CommandLine>

@@ -40,6 +40,7 @@ qemuargs               = [
     ["-device", "virtio-tablet"], # Better mouse tracking in VNC
     ["-device", "virtio-serial-pci"],
     ["-device", "virtio-rng-pci"],
+    ["-device", "virtio-vga"],
     ["-cdrom", "virtio-win.iso"]
   ]
 
