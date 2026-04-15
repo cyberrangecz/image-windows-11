@@ -242,10 +242,10 @@
 				</SynchronousCommand>
 
                 <RunSynchronousCommand wcm:action="add">
-                    <Order>7</Order>
-                    <Path>powershell.exe -NoProfile -Command "New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\OOBE' -Force | Out-Null; Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\OOBE' -Name 'DisablePrivacyExperience' -Value 1 -Type DWord -Force *>> 'C:\temp\logs\PrivacyPrompt.log'"</Path>
+                    <CommandLine>powershell.exe -NoProfile -Command "New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\OOBE' -Force | Out-Null; Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\OOBE' -Name 'DisablePrivacyExperience' -Value 1 -Type DWord -Force *>> 'C:\temp\logs\PrivacyPrompt.log'"</CommandLine>
                     <Description>Disable User Privacy Experience Screen</Description>
-                </RunSynchronousCommand>
+                    <Order>7</Order>
+				</RunSynchronousCommand>
 
                 <SynchronousCommand wcm:action="add">
                     <CommandLine>powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "&amp; 'a:\fixnetwork.ps1' *>> 'C:\temp\logs\fixnetwork.log'"</CommandLine>
