@@ -3,7 +3,7 @@ name: windows-11-testing-topology
 hosts:
   - name: image-test
     base_box:
-      image: IMAGE_NAME
+      image: windows-11-test
       mgmt_user: windows
     flavor: a4-8-80
 
