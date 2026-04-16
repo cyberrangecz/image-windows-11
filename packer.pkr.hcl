@@ -5,7 +5,7 @@ packer {
       version = "~> 1"
     }
     windows-update = {
-      version = "0.17.3"
+      version = "0.18.1"
       source  = "github.com/rgl/windows-update"
     }
     external = {
@@ -34,13 +34,11 @@ source "qemu" "windows_11" {
   output_directory     = "target-qemu"
 
 qemuargs               = [
+    ["-enable-kvm"],
     ["-m", "6144m"],
     ["-smp", "4,sockets=1,cores=4,threads=1"],
-    ["-cpu", "host,hv_relaxed,hv_vapic,hv_spinlocks=0x1fff,hv_vpindex,hv_runtime,hv_synic"],
+    ["-cpu", "host,hv_relaxed,hv_vapic,hv_runtime,hv_time,hv_vpindex,hv_synic,hv_stimer,hv_tlbflush,hv_ipi,hv_frequencies,hv_stimer_direct,hv_xmm_input,hv_tlbflush_ext,hv_spinlocks=0x1fff"],
     ["-device", "virtio-tablet"], # Better mouse tracking in VNC
-    ["-device", "virtio-serial-pci"],
-    ["-device", "virtio-rng-pci"],
-    ["-device", "virtio-vga"],
     ["-cdrom", "virtio-win.iso"]
   ]
 
@@ -60,7 +58,15 @@ build {
 
   provisioner "windows-restart" {} #fix system interrupts - spice tools needed reboot
 
-  provisioner "windows-update" {}
+  provisioner "windows-update" {
+    filters = [
+      # exclude KB5007651:
+      # Update for Windows Security platform - KB5007651 (Version 10.0.29510.1001)
+      # NB it can only be applied while the user is logged in.
+      "exclude:$_.Title -like '*KB5007651*'",
+      "include:$true",
+    ]
+  }
 
   provisioner "powershell" {
     scripts = [
@@ -81,16 +87,17 @@ build {
       "scripts/fix.ps1",
       "scripts/Install-CloudBaseInit.ps1",
       "scripts/cleanup.ps1",
-      #"scripts/shrink-filesystem.ps1",
-      "scripts/sysprep.ps1"
+      "scripts/shrink-filesystem.ps1",
+      "scripts/sysprep.ps1",
+      "scripts/cleanup.ps1" # delete sysprep created c:\temp again
     ]
   }
 
   post-processor "shell-local" {
     inline = [
-      # "parted -s target-qemu/* print free",
-      # "NEW_SIZE=$(parted -sm target-qemu/* unit b print free | grep free | awk -F ':' '{print $2}' | sort -rh | head -n 1)",
-      # "qemu-img resize -f raw --shrink target-qemu/* $NEW_SIZE",
+      "parted -s target-qemu/* print free",
+      "NEW_SIZE=$(parted -sm target-qemu/* unit b print free | grep free | awk -F ':' '{print $2}' | sort -rh | head -n 1)",
+      "qemu-img resize -f raw --shrink target-qemu/* $NEW_SIZE",
       "qemu-img convert -f raw -O qcow2 target-qemu/windows-11 target-qemu/windows-11.qcow2"
     ]
   }
