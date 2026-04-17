@@ -30,3 +30,5 @@ if (Test-Path -Path "C:\Program Files\Cloudbase Solutions\Cloudbase-Init\conf") 
 }
 
 Start-Process -FilePath "C:\Windows\System32\sysprep\sysprep.exe" -ArgumentList '/generalize /oobe /unattend:Unattend.xml /quit' -Wait
+
+Remove-Item -Path 'C:\temp' -Recurse -Force -ErrorAction SilentlyContinue

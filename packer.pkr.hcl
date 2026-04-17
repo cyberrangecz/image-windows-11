@@ -88,8 +88,7 @@ build {
       "scripts/Install-CloudBaseInit.ps1",
       "scripts/cleanup.ps1",
       "scripts/shrink-filesystem.ps1",
-      "scripts/sysprep.ps1",
-      "scripts/cleanup.ps1" # delete sysprep created c:\temp again
+      "scripts/sysprep.ps1"
     ]
   }
 
