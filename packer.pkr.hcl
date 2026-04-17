@@ -37,7 +37,7 @@ qemuargs               = [
     ["-enable-kvm"],
     ["-m", "6144m"],
     ["-smp", "4,sockets=1,cores=4,threads=1"],
-    ["-cpu", "host,hv_relaxed,hv_vapic,hv_runtime,hv_time,hv_vpindex,hv_synic,hv_stimer,hv_tlbflush,hv_ipi,hv_frequencies,hv_stimer_direct,hv_xmm_input,hv_tlbflush_ext,hv_spinlocks=0x1fff"],
+    ["-cpu", "host,hv_relaxed,hv_vapic,hv_runtime,hv_time,hv_vpindex,hv_synic,hv_stimer,hv_tlbflush,hv_ipi,hv_frequencies,hv_stimer_direct,hv_xmm_input,hv_tlbflush,hv_spinlocks=0x1fff"], #hv_tlbflush_ext not supported in kernel
     ["-device", "virtio-tablet"], # Better mouse tracking in VNC
     ["-cdrom", "virtio-win.iso"]
   ]
