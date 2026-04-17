@@ -230,14 +230,9 @@
                     <Order>9</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>powershell.exe -NoProfile -Command "Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Power' -Name 'HibernateFileSizePercent' -Value 0 *>> 'C:\temp\logs\Hibernation.log'"</CommandLine>
-                    <Description>Zero Hibernation File</Description>
-                    <Order>22</Order>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>powershell.exe -NoProfile -Command "Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Power' -Name 'HibernateEnabled' -Value 0 *>> 'C:\temp\logs\Hibernation.log'"</CommandLine>
-                    <Description>Disable Hibernation Mode</Description>
-                    <Order>23</Order>
+                    <CommandLine>cmd.exe /c "a:\power_plan_tune.cmd &gt;&gt; C:\temp\logs\PowerPlanTune.log"</CommandLine>
+                    <Description>Configure Virtual Machine Power Options</Description>
+                    <Order>10</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
                     <CommandLine>powershell.exe -NoProfile -Command "Set-LocalUser -Name 'windows' -PasswordNeverExpires $true *>> 'C:\temp\logs\PasswordPolicy.log'"</CommandLine>
