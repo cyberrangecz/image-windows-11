@@ -1,10 +1,9 @@
-
 <?xml version="1.0" encoding="utf-8"?>
 <unattend xmlns="urn:schemas-microsoft-com:unattend">
     <servicing/>
     <settings pass="windowsPE">
         <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
-			<RunSynchronous>
+            <RunSynchronous>
                 <RunSynchronousCommand wcm:action="add">
                     <Order>1</Order>
                     <Path>reg add HKLM\System\Setup\LabConfig /v BypassTPMCheck /t REG_DWORD /d 1 /f</Path>
@@ -136,10 +135,10 @@
                 <UILanguage>en-US</UILanguage>
             </SetupUILanguage>
             <InputLocale>en-US</InputLocale>
-            <SystemLocale>en-US</SystemLocale>
+            <SystemLocale>cs-CZ</SystemLocale>
             <UILanguage>en-US</UILanguage>
             <UILanguageFallback>en-US</UILanguageFallback>
-            <UserLocale>en-US</UserLocale>
+            <UserLocale>cs-CZ</UserLocale>
         </component>
     </settings>
     <settings pass="offlineServicing">
@@ -150,9 +149,9 @@
     <settings pass="oobeSystem">
         <component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <InputLocale>en-US</InputLocale>
-            <SystemLocale>en-US</SystemLocale>
+            <SystemLocale>cs-CZ</SystemLocale>
             <UILanguage>en-US</UILanguage>
-            <UserLocale>en-US</UserLocale>
+            <UserLocale>cs-CZ</UserLocale>
         </component>
         <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
             <UserAccounts>
@@ -214,21 +213,21 @@
                     <Description>Network prompt</Description>
                     <Order>6</Order>
                 </SynchronousCommand>
-				<SynchronousCommand wcm:action="add">
-				    <CommandLine>powershell.exe -NoProfile -Command "if (!(Test-Path 'HKLM:\SOFTWARE\Policies\Microsoft\Edge')) { New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Edge' -Force }; New-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Edge' -Name 'HideFirstRunExperience' -Value 1 -PropertyType DWord -Force *>> 'C:\temp\logs\EdgeFirstRun.log'"</CommandLine>
-				    <Description>Disable Edge First Run Experience</Description>
-				    <Order>7</Order>
-				</SynchronousCommand>
+                <SynchronousCommand wcm:action="add">
+                    <CommandLine>powershell.exe -NoProfile -Command "if (!(Test-Path 'HKLM:\SOFTWARE\Policies\Microsoft\Edge')) { New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Edge' -Force }; New-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Edge' -Name 'HideFirstRunExperience' -Value 1 -PropertyType DWord -Force *>> 'C:\temp\logs\EdgeFirstRun.log'"</CommandLine>
+                    <Description>Disable Edge First Run Experience</Description>
+                    <Order>7</Order>
+                </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
                     <CommandLine>powershell.exe -NoProfile -Command "New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\OOBE' -Force | Out-Null; Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\OOBE' -Name 'DisablePrivacyExperience' -Value 1 -Type DWord -Force *>> 'C:\temp\logs\PrivacyPrompt.log'"</CommandLine>
                     <Description>Disable User Privacy Experience Screen</Description>
                     <Order>8</Order>
-				</SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
+                </SynchronousCommand>
+                <!-- <SynchronousCommand wcm:action="add">
                     <CommandLine>powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "&amp; 'a:\fixnetwork.ps1' *>> 'C:\temp\logs\fixnetwork.log'"</CommandLine>
                     <Description>Fix public network</Description>
                     <Order>9</Order>
-                </SynchronousCommand>
+                </SynchronousCommand> -->
                 <SynchronousCommand wcm:action="add">
                     <CommandLine>cmd.exe /c "a:\power_plan_tune.cmd &gt;&gt; C:\temp\logs\PowerPlanTune.log"</CommandLine>
                     <Description>Configure Virtual Machine Power Options</Description>
@@ -266,5 +265,4 @@
             <SkipAutoActivation>true</SkipAutoActivation>
         </component>
     </settings>
-    <cpi:offlineImage xmlns:cpi="urn:schemas-microsoft-com:cpi" cpi:source="catalog:d:/sources/install_windows 7 ENTERPRISE.clg"/>
 </unattend>
