@@ -45,10 +45,11 @@ if (Test-Path $configPath) {
     $config = Get-Content -Path $configPath -Raw
 
     # Use Regex (?m) multiline mode to catch lines securely regardless of current state
-    $config = $config -replace '(?m)^#?PubkeyAuthentication\s+.*', 'PubkeyAuthentication yes'
-    $config = $config -replace '(?m)^#?PasswordAuthentication\s+.*', 'PasswordAuthentication no'
-    $config = $config -replace '(?m)^Match Group administrators', '#Match Group administrators'
-    $config = $config -replace '(?m)^AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_keys', '#AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_keys'
+    # Use Regex (?m) multiline mode and \s* to catch lines even if they are indented with spaces/tabs
+    $config = $config -replace '(?m)^\s*#?PubkeyAuthentication\s+.*', 'PubkeyAuthentication yes'
+    $config = $config -replace '(?m)^\s*#?PasswordAuthentication\s+.*', 'PasswordAuthentication no'
+    $config = $config -replace '(?m)^\s*Match Group administrators', '#Match Group administrators'
+    $config = $config -replace '(?m)^\s*AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_keys', '#AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_keys'
 
     $config | Set-Content -Path $configPath
     Write-Host "Config updated successfully."
