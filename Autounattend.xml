@@ -122,12 +122,12 @@
                 <PathAndCredentials wcm:action="add" wcm:keyValue="1">
                     <Path>E:\viostor\w11\amd64</Path>
                 </PathAndCredentials>
-                <PathAndCredentials wcm:action="add" wcm:keyValue="2">
+                <!-- <PathAndCredentials wcm:action="add" wcm:keyValue="2">
                     <Path>E:\NetKVM\w11\amd64</Path>
                 </PathAndCredentials>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="3">
                     <Path>E:\vioinput\w11\amd64</Path>
-                </PathAndCredentials>
+                </PathAndCredentials> -->
             </DriverPaths>
         </component>
         <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
@@ -189,62 +189,62 @@
                     <Order>1</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force *>> 'C:\temp\logs\SetExecutionPolicy64.log'"</CommandLine>
-                    <Description>Set Execution Policy 64 Bit</Description>
+                    <CommandLine>cmd.exe /c start /wait "" msiexec.exe /i "E:\virtio-win-gt-x64.msi" /qn /norestart /l*v "C:\temp\logs\VirtioInstall.log"</CommandLine>
+                    <Description>Install VirtIO Guest Tools</Description>
                     <Order>2</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>C:\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force *>> 'C:\temp\logs\SetExecutionPolicy32.log'"</CommandLine>
-                    <Description>Set Execution Policy 32 Bit</Description>
+                    <CommandLine>powershell.exe -NoProfile -Command "Start-Transcript -Path 'C:\temp\logs\WaitNetwork.log'; $i=0; $connected=$false; while(!$connected -and ($i -lt 90)) { Write-Host 'Waiting for network...'; if(Test-Connection -ComputerName 8.8.8.8 -Count 1 -Quiet -ErrorAction SilentlyContinue) { $connected=$true } else { Start-Sleep -Seconds 2; $i++ } }; if($connected) { Write-Host 'SUCCESS: Network connection established!' } else { Write-Host 'WARNING: Network connection failed after 3 minutes!' }; Stop-Transcript"</CommandLine>
+                    <Description>Wait and Verify Network Connection</Description>
                     <Order>3</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c start /wait "" msiexec.exe /i "E:\virtio-win-gt-x64.msi" /qn /norestart /l*v "C:\temp\logs\VirtioInstall.log"</CommandLine>
-                    <Description>Install VirtIO Guest Tools</Description>
+                    <CommandLine>powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Start-Transcript -Path 'C:\temp\logs\SetExecutionPolicy64.log'; Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine -Force -ErrorAction SilentlyContinue; Stop-Transcript"</CommandLine>
+                    <Description>Set Execution Policy 64 Bit</Description>
                     <Order>4</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                     <CommandLine>powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "&amp; 'A:\spiceToolsInstall.ps1' *>> 'C:\temp\logs\SpiceInstall.log'"</CommandLine>
-                    <Description>Install Spice Tools</Description>
+                    <CommandLine>C:\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Start-Transcript -Path 'C:\temp\logs\SetExecutionPolicy32.log'; Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine -Force -ErrorAction SilentlyContinue; Stop-Transcript"</CommandLine>
+                    <Description>Set Execution Policy 32 Bit</Description>
                     <Order>5</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>powershell.exe -NoProfile -Command "New-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Network' -Name 'NewNetworkWindowOff' -Value 1 -PropertyType DWord -Force *>> 'C:\temp\logs\NetworkPrompt.log'"</CommandLine>
-                    <Description>Network prompt</Description>
+                     <CommandLine>powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Start-Transcript -Path 'C:\temp\logs\SpiceInstall.log'; &amp; 'A:\spiceToolsInstall.ps1'; Stop-Transcript"</CommandLine>
+                    <Description>Install Spice Tools</Description>
                     <Order>6</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>powershell.exe -NoProfile -Command "if (!(Test-Path 'HKLM:\SOFTWARE\Policies\Microsoft\Edge')) { New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Edge' -Force }; New-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Edge' -Name 'HideFirstRunExperience' -Value 1 -PropertyType DWord -Force *>> 'C:\temp\logs\EdgeFirstRun.log'"</CommandLine>
-                    <Description>Disable Edge First Run Experience</Description>
+                    <CommandLine>powershell.exe -NoProfile -Command "Start-Transcript -Path 'C:\temp\logs\NetworkPrompt.log'; New-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Network' -Name 'NewNetworkWindowOff' -Value 1 -PropertyType DWord -Force; Stop-Transcript"</CommandLine>
+                    <Description>Network prompt</Description>
                     <Order>7</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>powershell.exe -NoProfile -Command "New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\OOBE' -Force | Out-Null; Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\OOBE' -Name 'DisablePrivacyExperience' -Value 1 -Type DWord -Force *>> 'C:\temp\logs\PrivacyPrompt.log'"</CommandLine>
-                    <Description>Disable User Privacy Experience Screen</Description>
+                    <CommandLine>powershell.exe -NoProfile -Command "Start-Transcript -Path 'C:\temp\logs\EdgeFirstRun.log'; if (!(Test-Path 'HKLM:\SOFTWARE\Policies\Microsoft\Edge')) { New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Edge' -Force }; New-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Edge' -Name 'HideFirstRunExperience' -Value 1 -PropertyType DWord -Force; Stop-Transcript"</CommandLine>
+                    <Description>Disable Edge First Run Experience</Description>
                     <Order>8</Order>
                 </SynchronousCommand>
-                <!-- <SynchronousCommand wcm:action="add">
-                    <CommandLine>powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "&amp; 'a:\fixnetwork.ps1' *>> 'C:\temp\logs\fixnetwork.log'"</CommandLine>
-                    <Description>Fix public network</Description>
-                    <Order>9</Order>
-                </SynchronousCommand> -->
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c "a:\power_plan_tune.cmd &gt;&gt; C:\temp\logs\PowerPlanTune.log"</CommandLine>
+                    <CommandLine>powershell.exe -NoProfile -Command "Start-Transcript -Path 'C:\temp\logs\PrivacyPrompt.log'; New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\OOBE' -Force | Out-Null; Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\OOBE' -Name 'DisablePrivacyExperience' -Value 1 -Type DWord -Force; Stop-Transcript"</CommandLine>
+                    <Description>Disable User Privacy Experience Screen</Description>
+                    <Order>9</Order>
+                </SynchronousCommand>
+                <SynchronousCommand wcm:action="add">
+                    <CommandLine>cmd.exe /c "a:\power_plan_tune.cmd &gt;&gt; C:\temp\logs\PowerPlanTune.log 2&gt;&amp;1"</CommandLine>
                     <Description>Configure Virtual Machine Power Options</Description>
                     <Order>10</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>powershell.exe -NoProfile -Command "Set-LocalUser -Name 'windows' -PasswordNeverExpires $true *>> 'C:\temp\logs\PasswordPolicy.log'"</CommandLine>
+                    <CommandLine>powershell.exe -NoProfile -Command "Start-Transcript -Path 'C:\temp\logs\PasswordPolicy.log'; Set-LocalUser -Name 'windows' -PasswordNeverExpires $true; Stop-Transcript"</CommandLine>
                     <Description>Disable password expiration</Description>
                     <Order>24</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "&amp; 'a:\microsoft-updates.ps1' *>> 'C:\temp\logs\microsoft-updates.log'"</CommandLine>
+                    <CommandLine>powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Start-Transcript -Path 'C:\temp\logs\microsoft-updates.log'; &amp; 'a:\microsoft-updates.ps1'; Stop-Transcript"</CommandLine>
                     <Description>Configure Microsoft Updates</Description>
                     <Order>98</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "&amp; 'a:\openssh.ps1' *>> 'C:\temp\logs\openssh.log'"</CommandLine>
+                    <CommandLine>powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Start-Transcript -Path 'C:\temp\logs\openssh.log'; &amp; 'a:\openssh.ps1'; Stop-Transcript"</CommandLine>
                     <Description>Install OpenSSH</Description>
                     <Order>100</Order>
                 </SynchronousCommand>
