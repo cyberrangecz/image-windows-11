@@ -45,6 +45,7 @@ Set-Service -Name tzautoupdate -StartupType Disabled
 # 4. Hardcode the timezone to CET (Central European Time)
 Set-TimeZone -Id "Central Europe Standard Time"
 '
+
 Set-Service -Name "cloudbase-init" -StartupType Automatic
 Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\cloudbase-init" -Name "DelayedAutostart" -Value 1
 
