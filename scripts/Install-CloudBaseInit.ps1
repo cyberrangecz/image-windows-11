@@ -31,6 +31,11 @@ reg add "$p\Plugins" /v SetUserPasswordPlugin /t REG_DWORD /d 1 /f
 New-Item -Path "C:\Program Files\Cloudbase Solutions\Cloudbase-Init\LocalScripts" -Name "time.ps1" -ItemType "file" -Value '
 # Allow large time corrections (up to 12 hours)
 w32tm /config /update /maxposphasecorrection:43200 /maxnegphasecorrection:43200
+# Disable the Windows Auto Time Zone Updater service to prevent the "Redmond Fallback" (UTC-8)
+Stop-Service -Name tzautoupdate -Force
+Set-Service -Name tzautoupdate -StartupType Disabled
+# Hardcode the timezone to CET (Central European Time)
+Set-TimeZone -Id "Central Europe Standard Time"
 '
 Set-Service -Name "cloudbase-init" -StartupType Automatic
 Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\cloudbase-init" -Name "DelayedAutostart" -Value 1
