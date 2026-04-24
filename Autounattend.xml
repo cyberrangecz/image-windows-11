@@ -120,12 +120,12 @@
             -->
             <DriverPaths>
                 <PathAndCredentials wcm:action="add" wcm:keyValue="1">
-                    <Path>E:\viostor\w10\amd64</Path>
+                    <Path>E:\viostor\w11\amd64</Path>
                 </PathAndCredentials>
-                <!-- <PathAndCredentials wcm:action="add" wcm:keyValue="2">
+                <PathAndCredentials wcm:action="add" wcm:keyValue="2">
                     <Path>E:\NetKVM\w11\amd64</Path>
                 </PathAndCredentials>
-                <PathAndCredentials wcm:action="add" wcm:keyValue="3">
+                <!-- <PathAndCredentials wcm:action="add" wcm:keyValue="3">
                     <Path>E:\vioinput\w11\amd64</Path>
                 </PathAndCredentials> -->
             </DriverPaths>
