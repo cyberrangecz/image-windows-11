@@ -5,7 +5,7 @@ packer {
       version = "~> 1"
     }
     windows-update = {
-      version = "0.18.1"
+      version = "v0.17.3"
       source  = "github.com/rgl/windows-update"
     }
     external = {
@@ -24,6 +24,7 @@ data "external-raw" "virtio" {
 
 source "qemu" "windows_11" {
   boot_wait            = "10s"
+  disk_interface       = "ide"
   disk_interface       = "virtio"
   disk_size            = "50000"
   floppy_files         = ["Autounattend.xml", "redhat.cer", "scripts/microsoft-updates.ps1", "scripts/openssh.ps1", "scripts/spiceToolsInstall.ps1", "scripts/fixnetwork.ps1", "scripts/power_plan_tune.cmd"]
@@ -56,16 +57,7 @@ qemuargs               = [
 build {
   sources = ["source.qemu.windows_11"]
 
-  provisioner "windows-update" {
-    filters = [
-      # exclude KB5007651:
-      # Update for Windows Security platform - KB5007651 (Version 10.0.29510.1001)
-      # NB it can only be applied while the user is logged in.
-      "exclude:$_.Title -like '*KB5007651*'",
-      "exclude:$_.Title -like '*KB5083769*'",
-      "include:$true",
-    ]
-  }
+  provisioner "windows-update" {}
 
   provisioner "powershell" {
     scripts = [
