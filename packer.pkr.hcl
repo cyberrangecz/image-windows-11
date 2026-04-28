@@ -5,7 +5,7 @@ packer {
       version = "~> 1"
     }
     windows-update = {
-      version = "v0.17.3"
+      version = "v0.18.1"
       source  = "github.com/rgl/windows-update"
     }
     external = {
@@ -57,7 +57,15 @@ qemuargs               = [
 build {
   sources = ["source.qemu.windows_11"]
 
-  provisioner "windows-update" {}
+  provisioner "windows-update" {
+    filters = [
+      # exclude KB5007651:
+      # Update for Windows Security platform - KB5007651 (Version 10.0.29510.1001)
+      # NB it can only be applied while the user is logged in.
+      "exclude:$_.Title -like '*KB5007651*'",
+      "include:$true",
+    ]
+  }
 
   provisioner "powershell" {
     scripts = [
