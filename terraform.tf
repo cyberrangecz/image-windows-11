@@ -47,4 +47,8 @@ module "topology" {
   os_distro        = var.DISTRO
   gui_access       = var.GUI_ACCESS
   image_local_path = var.IMAGE_LOCAL_PATH
+  image_properties_override = {
+    hw_firmware_type = "uefi"
+    hw_machine_type  = "q35"
+  }
 }

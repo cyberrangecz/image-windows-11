@@ -8,22 +8,6 @@
                     <Order>1</Order>
                     <Path>reg add HKLM\System\Setup\LabConfig /v BypassTPMCheck /t REG_DWORD /d 1 /f</Path>
                 </RunSynchronousCommand>
-                <RunSynchronousCommand wcm:action="add">
-                    <Order>2</Order>
-                    <Path>reg add HKLM\System\Setup\LabConfig /v BypassSecureBootCheck /t REG_DWORD /d 1 /f</Path>
-                </RunSynchronousCommand>
-                <RunSynchronousCommand wcm:action="add">
-                    <Order>3</Order>
-                    <Path>reg add HKLM\System\Setup\LabConfig /v BypassRAMCheck /t REG_DWORD /d 1 /f</Path>
-                </RunSynchronousCommand>
-                <RunSynchronousCommand wcm:action="add">
-                    <Order>4</Order>
-                    <Path>reg add HKLM\System\Setup\LabConfig /v BypassCPUCheck /t REG_DWORD /d 1 /f</Path>
-                </RunSynchronousCommand>
-                <RunSynchronousCommand wcm:action="add">
-                    <Order>5</Order>
-                    <Path>reg add HKLM\System\Setup\LabConfig /v BypassStorageCheck /t REG_DWORD /d 1 /f</Path>
-                </RunSynchronousCommand>
             </RunSynchronous>
             <DiskConfiguration>
                 <Disk wcm:action="add">
@@ -32,13 +16,13 @@
                     <CreatePartitions>
                         <CreatePartition wcm:action="add">
                             <Order>1</Order>
-                            <Type>Primary</Type>
-                            <Size>100</Size>
+                            <Type>EFI</Type>
+                            <Size>260</Size>
                         </CreatePartition>
                         <CreatePartition wcm:action="add">
                             <Order>2</Order>
-                            <Type>Primary</Type>
-                            <Size>1000</Size>
+                            <Type>MSR</Type>
+                            <Size>16</Size>
                         </CreatePartition>
                         <CreatePartition wcm:action="add">
                             <Order>3</Order>
@@ -50,19 +34,11 @@
                         <ModifyPartition wcm:action="add">
                             <Order>1</Order>
                             <PartitionID>1</PartitionID>
-                            <Label>System Reserved</Label>
-                            <Format>NTFS</Format>
-                            <Active>true</Active>
+                            <Label>EFI</Label>
+                            <Format>FAT32</Format>
                         </ModifyPartition>
                         <ModifyPartition wcm:action="add">
                             <Order>2</Order>
-                            <PartitionID>2</PartitionID>
-                            <Label>Recovery</Label>
-                            <Format>NTFS</Format>
-                            <TypeID>0x27</TypeID>
-                        </ModifyPartition>
-                        <ModifyPartition wcm:action="add">
-                            <Order>3</Order>
                             <PartitionID>3</PartitionID>
                             <Label>Windows 11</Label>
                             <Format>NTFS</Format>
@@ -113,16 +89,34 @@
         </component>
         <component name="Microsoft-Windows-PnpCustomizationsWinPE" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="amd64" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State">
             <DriverPaths>
-                <PathAndCredentials wcm:action="add" wcm:keyValue="1">
+                <PathAndCredentials wcm:action="add" wcm:keyValue="2">
                     <Path>E:\viostor\w11\amd64</Path>
                 </PathAndCredentials>
-                <PathAndCredentials wcm:action="add" wcm:keyValue="2">
+                <PathAndCredentials wcm:action="add" wcm:keyValue="3">
                     <Path>E:\NetKVM\w11\amd64</Path>
                 </PathAndCredentials>
-                <PathAndCredentials wcm:action="add" wcm:keyValue="3">
+                <PathAndCredentials wcm:action="add" wcm:keyValue="4">
+                    <Path>E:\Balloon\w11\amd64</Path>
+                </PathAndCredentials>
+                <PathAndCredentials wcm:action="add" wcm:keyValue="5">
+                    <Path>E:\pvpanic\w11\amd64</Path>
+                </PathAndCredentials>
+                <PathAndCredentials wcm:action="add" wcm:keyValue="6">
+                    <Path>E:\qemupciserial\w11\amd64</Path>
+                </PathAndCredentials>
+                <PathAndCredentials wcm:action="add" wcm:keyValue="7">
                     <Path>E:\vioinput\w11\amd64</Path>
                 </PathAndCredentials>
-	        </DriverPaths>
+                <PathAndCredentials wcm:action="add" wcm:keyValue="8">
+                    <Path>E:\viorng\w11\amd64</Path>
+                </PathAndCredentials>
+                <PathAndCredentials wcm:action="add" wcm:keyValue="9">
+                    <Path>E:\vioscsi\w11\amd64</Path>
+                </PathAndCredentials>
+                <PathAndCredentials wcm:action="add" wcm:keyValue="10">
+                    <Path>E:\vioserial\w11\amd64</Path>
+                </PathAndCredentials>
+            </DriverPaths>
         </component>
         <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
             <SetupUILanguage>
