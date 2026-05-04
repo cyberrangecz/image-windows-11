@@ -104,7 +104,7 @@ post-processor "shell-local" {
       <<-EOF
         set -euo pipefail
 
-        IMG="target-qemu/windows-server-2025"
+        IMG="target-qemu/windows-11" 
 
         # Print initial state for debugging
         parted -s "$IMG" unit b print free
