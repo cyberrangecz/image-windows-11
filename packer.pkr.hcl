@@ -30,7 +30,7 @@ source "qemu" "windows_11" {
   efi_boot             = true
   efi_firmware_code    = "/usr/share/OVMF/OVMF_CODE_4M.secboot.fd"
   efi_firmware_vars    = "/usr/share/OVMF/OVMF_VARS_4M.ms.fd"
-  floppy_files         = ["Autounattend.xml", "redhat.cer", "scripts/microsoft-updates.ps1", "scripts/openssh.ps1", "scripts/spiceToolsInstall.ps1", "scripts/fixnetwork.ps1", "scripts/power_plan_tune.cmd"]
+  floppy_files         = ["Autounattend.xml", "redhat.cer", "scripts/microsoft-updates.ps1", "scripts/openssh.ps1", "scripts/spiceToolsInstall.ps1", "scripts/power_plan_tune.cmd"]
   format               = "raw"
   headless             = "true"
   iso_checksum         = "a61adeab895ef5a4db436e0a7011c92a2ff17bb0357f58b13bbc4062e535e7b9"
@@ -73,14 +73,6 @@ build {
     ]
   }
 
-  provisioner "powershell" {
-    scripts = [
-      # "scripts/configureRemotingForAnsible.ps1",
-      # "scripts/spiceToolsInstall.ps1",
-      "scripts/enable-rdp.ps1"
-    ]
-  }
-
   provisioner "windows-restart" {}
 
   provisioner "windows-shell" {
@@ -91,6 +83,7 @@ build {
     scripts = [
       "scripts/fix.ps1",
       "scripts/Install-CloudBaseInit.ps1",
+      "scripts/enable-rdp.ps1",
       "scripts/cleanup.ps1",
       "scripts/remove-recovery-partition.ps1",
       "scripts/shrink-filesystem.ps1",
