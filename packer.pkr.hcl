@@ -39,6 +39,7 @@ source "qemu" "windows_11" {
   output_directory     = "target-qemu"
   qemuargs             = [
       ["-enable-kvm"],
+      ["-rtc", "base=localtime"],
       ["-m", "6144m"],
       ["-smp", "4,sockets=1,cores=4,threads=1"],
       ["-cpu", "host,hv_relaxed,hv_vapic,hv_runtime,hv_time,hv_vpindex,hv_synic,hv_stimer,hv_tlbflush,hv_ipi,hv_frequencies,hv_stimer_direct,hv_xmm_input,hv_spinlocks=0x1fff"],
@@ -120,7 +121,7 @@ post-processor "shell-local" {
         sgdisk --move-second-header "$IMG"
 
         # Convert to qcow2
-        qemu-img convert -f raw -O qcow2 "$IMG" "$IMG.qcow2"
+        qemu-img convert -p -f raw -O qcow2 "$IMG" "$IMG.qcow2"
       EOF
     ]
   }
